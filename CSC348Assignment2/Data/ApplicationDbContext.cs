@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using CSC348Assignment2.Models;
 
 namespace CSC348Assignment2.Data
 {
@@ -12,5 +13,6 @@ namespace CSC348Assignment2.Data
             : base(options)
         {
         }
+        public DbSet<CSC348Assignment2.Models.Post> Post { get; set; }
     }
 }

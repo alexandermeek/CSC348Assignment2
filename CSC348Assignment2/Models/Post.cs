@@ -18,7 +18,7 @@ namespace CSC348Assignment2.Models
         public string Body { get; set; }
 
         [Required]
-        public User Poster { get; set; }
+        public ApplicationUser Poster { get; set; }
 
         [Display(Name = "Posted On")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
