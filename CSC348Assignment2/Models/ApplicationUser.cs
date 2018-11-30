@@ -10,9 +10,6 @@ namespace CSC348Assignment2.Models
 {
     public class ApplicationUser : IdentityUser
     {
-        [Required, StringLength(15)]
-        public string Username { get; set; }
-
         [Display(Name = "Created On")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
         public DateTime TimeCreated

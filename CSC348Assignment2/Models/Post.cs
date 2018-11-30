@@ -11,7 +11,7 @@ namespace CSC348Assignment2.Models
         [Key, Required]
         public int Id { get; set; }
 
-        [Required, StringLength(10)]
+        [Required, StringLength(25)]
         public string Title { get; set; }
 
         [Required, StringLength(300)]

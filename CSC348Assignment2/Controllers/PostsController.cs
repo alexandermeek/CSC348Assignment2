@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CSC348Assignment2.Data;
 using CSC348Assignment2.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CSC348Assignment2.Controllers
 {
@@ -44,6 +45,7 @@ namespace CSC348Assignment2.Controllers
         }
 
         // GET: Posts/Create
+        [Authorize]
         public IActionResult Create()
         {
             return View();
