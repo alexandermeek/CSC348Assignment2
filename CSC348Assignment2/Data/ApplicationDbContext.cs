@@ -13,5 +13,6 @@ namespace CSC348Assignment2.Data
             : base(options)
         {
         }
+        public DbSet<CSC348Assignment2.Models.Post> Post { get; set; }
     }
 }
