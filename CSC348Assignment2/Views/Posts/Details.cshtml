@@ -32,11 +32,40 @@
             @Html.DisplayNameFor(model => model.Poster)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Poster.Id)
+            @Html.DisplayFor(model => model.Poster.UserName)
         </dd>
+        <dt>
+            Number of comments
+        </dt>
     </dl>
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>
+@if (!(Model.Comments == null))
+{
+    <table class="table">
+        <tbody>
+            @foreach (Comment comment in Model.Comments)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => comment.Body)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => comment.Commenter.UserName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => comment.Date)
+                    </td>
+                    <td>
+                        <a asp-action="../Comments/Delete" asp-route-id="@comment.Id">Delete</a>
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+</table>
+}
+        <a asp-action="../Comments/Create" asp-route-id="@Model.Id">New Comment</a>

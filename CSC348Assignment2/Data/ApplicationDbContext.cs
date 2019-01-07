@@ -14,5 +14,6 @@ namespace CSC348Assignment2.Data
         {
         }
         public DbSet<CSC348Assignment2.Models.Post> Post { get; set; }
+        public DbSet<CSC348Assignment2.Models.Comment> Comment { get; set; }
     }
 }

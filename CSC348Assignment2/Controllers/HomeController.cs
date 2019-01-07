@@ -23,7 +23,6 @@ namespace CSC348Assignment2.Controllers
             return View();
         }
 
-        [Authorize(Roles = "admin")]
         public IActionResult Contact()
         {
             ViewData["Message"] = "Your contact page.";
