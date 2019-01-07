@@ -21,8 +21,9 @@ namespace CSC348Assignment2.Data
             string role2 = "commenter";
             string desc2 = "Commenter role, allows you to comment on posts";
 
-            string password = "P@ssw0rd";
+            string password = "Password123!”";
 
+            //Check if roles have been created yet or not.
             if (await roleManager.FindByNameAsync(role1) == null)
             {
                 await roleManager.CreateAsync(new ApplicationRole(role1, desc1));
@@ -32,12 +33,13 @@ namespace CSC348Assignment2.Data
                 await roleManager.CreateAsync(new ApplicationRole(role2, desc2));
             }
 
-            if (await userManager.FindByNameAsync("admin@admin.com") == null)
+            //Check if seeded users have been created yet or not.
+            if (await userManager.FindByNameAsync("Member1@email.com") == null)
             {
                 var user = new ApplicationUser
                 {
-                    UserName = "admin@admin.com",
-                    Email = "admin@admin.com",
+                    UserName = "Member1",
+                    Email = "Member1@email.com",
                     PhoneNumber = "0123456789"
                 };
 
@@ -49,22 +51,26 @@ namespace CSC348Assignment2.Data
                 }
             }
 
-            if (await userManager.FindByNameAsync("user@user.com") == null)
+            for (int i = 1; i <= 5; i++)
             {
-                var user = new ApplicationUser
+                if (await userManager.FindByNameAsync("Customer" + i + "@email.com") == null)
                 {
-                    UserName = "user@user.com",
-                    Email = "user@user.com",
-                    PhoneNumber = "9876543210"
-                };
+                    var user = new ApplicationUser
+                    {
+                        UserName = "Customer" + i,
+                        Email = "Customer" + i + "@email.com",
+                        PhoneNumber = "9876543210"
+                    };
 
-                var result = await userManager.CreateAsync(user);
-                if (result.Succeeded)
-                {
-                    await userManager.AddPasswordAsync(user, password);
-                    await userManager.AddToRoleAsync(user, role2);
+                    var result = await userManager.CreateAsync(user);
+                    if (result.Succeeded)
+                    {
+                        await userManager.AddPasswordAsync(user, password);
+                        await userManager.AddToRoleAsync(user, role2);
+                    }
                 }
             }
+            
 
         }
     }

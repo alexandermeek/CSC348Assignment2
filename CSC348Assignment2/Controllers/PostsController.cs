@@ -27,6 +27,8 @@ namespace CSC348Assignment2.Controllers
         }
 
         // GET: Posts
+        //Gets a list of all posts.
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
             var applicationDbContext = _context.Post.Include(p => p.Poster);
@@ -34,6 +36,8 @@ namespace CSC348Assignment2.Controllers
         }
 
         // GET: Posts/Details/5
+        //Gets details about a particular post.
+        [AllowAnonymous]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -64,6 +68,7 @@ namespace CSC348Assignment2.Controllers
         }
 
         // GET: Posts/Create
+        //Gets the post creation form.
         [Authorize(Roles = "admin")]
         public IActionResult Create()
         {
@@ -72,8 +77,7 @@ namespace CSC348Assignment2.Controllers
         }
 
         // POST: Posts/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        //Creates a post made by an admin.
         [Authorize(Roles = "admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -81,8 +85,10 @@ namespace CSC348Assignment2.Controllers
         {
             if (ModelState.IsValid)
             {
+                //Gets the id of the user logged in.
                 string id = _userManager.GetUserId(User);
 
+                //Adds attributes to the post that the admin didn't submit.
                 post.ApplicationUserId = id;
                 post.Poster = await _userManager.FindByIdAsync(id);
                 post.Date = DateTime.Now;
@@ -96,6 +102,7 @@ namespace CSC348Assignment2.Controllers
         }
 
         // GET: Posts/Edit/5
+        //Gets the edit form for admins only.
         [Authorize(Roles = "admin")]
         public async Task<IActionResult> Edit(int? id)
         {
@@ -114,8 +121,8 @@ namespace CSC348Assignment2.Controllers
         }
 
         // POST: Posts/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        //Updates a post based on an admins edit.
+        [Authorize(Roles = "admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Title,Body")] Post post)
@@ -150,6 +157,7 @@ namespace CSC348Assignment2.Controllers
         }
 
         // GET: Posts/Delete/5
+        //Gets the delete confirmation page.
         [Authorize(Roles = "admin")]
         public async Task<IActionResult> Delete(int? id)
         {
@@ -170,6 +178,7 @@ namespace CSC348Assignment2.Controllers
         }
 
         // POST: Posts/Delete/5
+        //Allows admin to delete posts.
         [Authorize(Roles = "admin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]

@@ -26,34 +26,8 @@ namespace CSC348Assignment2.Controllers
             _userManager = userManager;
         }
 
-        // GET: Comments
-        public async Task<IActionResult> Index()
-        {
-            var applicationDbContext = _context.Comment.Include(c => c.Commenter).Include(c => c.Post);
-            return View(await applicationDbContext.ToListAsync());
-        }
-
-        // GET: Comments/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var comment = await _context.Comment
-                .Include(c => c.Commenter)
-                .Include(c => c.Post)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (comment == null)
-            {
-                return NotFound();
-            }
-            
-            return View(comment);
-        }
-
         // GET: Comments/Create
+        //Gets the form to create a new comment.
         public IActionResult Create()
         {
             ViewData["ApplicationUserId"] = new SelectList(_context.Users, "Id", "Id");
@@ -62,16 +36,17 @@ namespace CSC348Assignment2.Controllers
         }
 
         // POST: Comments/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        //Create a new comment on a post with id, including a text body.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(int id, [Bind("Body")] Comment comment)
         {
             if (ModelState.IsValid)
             {
+                //Get the id of the user logged in.
                 string userId = _userManager.GetUserId(User);
 
+                //Add attributes to the comment that aren't given by the commenter.
                 comment.ApplicationUserId = userId;
                 comment.Commenter = await _userManager.FindByIdAsync(userId);
                 comment.Date = DateTime.Now;
@@ -79,6 +54,7 @@ namespace CSC348Assignment2.Controllers
 
                 Post post = await _context.Post.FindAsync(id);
                 comment.Post = post;
+                //Add comment to posts list of comments.
                 if (post.Comments == null)
                 {
                     post.Comments = new List<Comment>();
@@ -95,62 +71,9 @@ namespace CSC348Assignment2.Controllers
             return View(comment);
         }
 
-        // GET: Comments/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var comment = await _context.Comment.FindAsync(id);
-            if (comment == null)
-            {
-                return NotFound();
-            }
-            ViewData["ApplicationUserId"] = new SelectList(_context.Users, "Id", "Id", comment.ApplicationUserId);
-            ViewData["PostId"] = new SelectList(_context.Post, "Id", "Body", comment.PostId);
-            return View(comment);
-        }
-
-        // POST: Comments/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Body,ApplicationUserId,PostId,Date")] Comment comment)
-        {
-            if (id != comment.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(comment);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!CommentExists(comment.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["ApplicationUserId"] = new SelectList(_context.Users, "Id", "Id", comment.ApplicationUserId);
-            ViewData["PostId"] = new SelectList(_context.Post, "Id", "Body", comment.PostId);
-            return View(comment);
-        }
-
         // GET: Comments/Delete/5
+        //Allows admins to view the delete view for comments.
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -171,6 +94,8 @@ namespace CSC348Assignment2.Controllers
         }
 
         // POST: Comments/Delete/5
+        //Allows admins to delete comments.
+        [Authorize(Roles = "admin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
