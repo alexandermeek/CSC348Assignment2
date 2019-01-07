@@ -86,7 +86,7 @@ namespace CSC348Assignment2.Controllers
             if (ModelState.IsValid)
             {
                 //Gets the id of the user logged in.
-                string id = _userManager.GetUserId(User);
+                string id = getCurrentUserId();
 
                 //Adds attributes to the post that the admin didn't submit.
                 post.ApplicationUserId = id;
@@ -188,6 +188,12 @@ namespace CSC348Assignment2.Controllers
             _context.Post.Remove(post);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+        }
+
+        //Gets the user id of the user currently logged in.
+        private string getCurrentUserId()
+        {
+            return _userManager.GetUserId(User);
         }
 
         private bool PostExists(int id)

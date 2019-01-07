@@ -13,6 +13,7 @@ using CSC348Assignment2.Data;
 using CSC348Assignment2.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Antiforgery;
 
 namespace CSC348Assignment2
 {
