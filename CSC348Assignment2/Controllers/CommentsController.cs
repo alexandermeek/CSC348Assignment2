@@ -88,7 +88,7 @@ namespace CSC348Assignment2.Controllers
                 _context.Update(post);
                 _context.Add(comment);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("details", "Posts", new { Id = comment.PostId });
             }
             ViewData["ApplicationUserId"] = new SelectList(_context.Users, "Id", "Id", comment.ApplicationUserId);
             ViewData["PostId"] = new SelectList(_context.Post, "Id", "Body", comment.PostId);
