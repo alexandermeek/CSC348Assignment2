@@ -150,7 +150,7 @@ namespace CSC348Assignment2.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("index", "Posts");
             }
             ViewData["ApplicationUserId"] = new SelectList(_context.Users, "Id", "Id", post.ApplicationUserId);
             return View(post);

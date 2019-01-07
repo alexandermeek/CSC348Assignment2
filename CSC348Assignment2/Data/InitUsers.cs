@@ -21,7 +21,7 @@ namespace CSC348Assignment2.Data
             string role2 = "commenter";
             string desc2 = "Commenter role, allows you to comment on posts";
 
-            string password = "Password123!”";
+            string password = "Password123!";
 
             //Check if roles have been created yet or not.
             if (await roleManager.FindByNameAsync(role1) == null)
@@ -38,7 +38,7 @@ namespace CSC348Assignment2.Data
             {
                 var user = new ApplicationUser
                 {
-                    UserName = "Member1",
+                    UserName = "Member1@email.com",
                     Email = "Member1@email.com",
                     PhoneNumber = "0123456789"
                 };
@@ -57,7 +57,7 @@ namespace CSC348Assignment2.Data
                 {
                     var user = new ApplicationUser
                     {
-                        UserName = "Customer" + i,
+                        UserName = "Customer" + i + "@email.com",
                         Email = "Customer" + i + "@email.com",
                         PhoneNumber = "9876543210"
                     };

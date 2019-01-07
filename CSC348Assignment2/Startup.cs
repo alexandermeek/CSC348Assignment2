@@ -14,6 +14,7 @@ using CSC348Assignment2.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Antiforgery;
+using System.Diagnostics;
 
 namespace CSC348Assignment2
 {
